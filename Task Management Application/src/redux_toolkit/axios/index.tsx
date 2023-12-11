@@ -1,6 +1,5 @@
 import axios from "axios"
-import { AxiosError } from "axios";
-import { getToken } from "../../helpers";
+import { getAccessToken } from "../../helpers";
 
 const BASE_API_URL = import.meta.env.VITE_REACT_API_URL
 
@@ -13,29 +12,19 @@ const ApiAxios = axios.create({
    }
 )
 
-ApiAxios.interceptors.request.use(
-  
-  (config) => { const token = getToken();
-     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-      return config;
-  },
-  (error: AxiosError) => {
-              return Promise.reject(error);
-  }
-);
+ApiAxios.interceptors.request.use(function (config) {
+  config.headers.Authorization = `Bearer ${getAccessToken()}`;
+  return config;
+});
 
-ApiAxios.interceptors.response.use(
-    (res) => {
-        console.log(res, 'int res'); return res
-    },
-    (err) => {
-        if (axios.isAxiosError(err)) {
-            console.log(err);
-        }
-    }
-)
+ApiAxios.interceptors.response.use(resp => resp, async err => {
+  if (err.response.status === 401) {
+    const response = await ApiAxios.post('/auth/refresh-token')
+        return response;
+
+}})
+
+  
 
 export default ApiAxios;
 

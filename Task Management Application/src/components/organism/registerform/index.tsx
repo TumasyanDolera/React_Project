@@ -10,16 +10,18 @@ import { useColorModeValue } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { WrappedApp } from "../../../i18n";
 import { useNavigate } from "react-router-dom";
-import { PostUserReg } from "../../../redux_toolkit/services/userauth";
-import axios from "axios";
-
+import { UserRegister } from "../../../redux_toolkit/services";
+import { useAppSelector, useAppDispatch } from "../../../hooks/redux";
+import { Loading } from "../../../loading";
+import { useEffect } from "react";
 const RagisterForm = () => {
-    const [err, setErr] = useState(false)
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePasswordVisiblity = () => {
         setPasswordShown(passwordShown ? false : true);
     }
-   const navigate = useNavigate();
+    const { loading, error, userInfo, success } = useAppSelector((state) => state.userAuth)
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate();
     const {
         register,
         formState: {
@@ -31,26 +33,16 @@ const RagisterForm = () => {
     } = useForm<IForm>({
         mode: "onBlur"
     });
+    useEffect(() => {
+        if (success) navigate('/login')
+        // if (userInfo) navigate('/user-profile')
+      }, [navigate, userInfo, success])
     const onSubmit: SubmitHandler<IForm> = async (data) => {
-        try {
-            const response = await PostUserReg(data)
-            console.log(response, 'RESPONSE ');
-        if (response.status === 500) {
-              setErr(true);
-              setTimeout(() => {
-                setErr(false);
-            }, 5000);
-            } else {
-              navigate("/login");
-              reset();
-            }
-          } catch (err) {
-            if (axios.isAxiosError(err)) {
-              console.log(err.response?.data.errText, 'err');
-            } else if (err instanceof Error) {
-              console.log(err.message);
-            }
+        if (data.password !== data.confirmPassword) {
+            alert('Password mismatch')
           }
+          dispatch(UserRegister(data))
+          reset();
         }
     const confirmPassword = watch("confirmPassword");
     const password = watch("password");
@@ -63,14 +55,14 @@ const RagisterForm = () => {
             justify={'center'}
             bg={useColorModeValue("purple.200", "black.300")}
             color={useColorModeValue("purple", "purple")}
-            >
+        >
             <form onSubmit={handleSubmit(onSubmit)} >
                 <Stack spacing={8} mx={'auto'} maxW={''} py={12} px={6}>
                     <Stack align={'center'}>
-                    <Center > <WrappedApp /></Center>
-                        <Heading fontSize={'4xl'} textAlign={'center'} 
-                        color={useColorModeValue("purple", "white")}
-                         fontWeight={800}>
+                        <Center > <WrappedApp /></Center>
+                        <Heading fontSize={'4xl'} textAlign={'center'}
+                            color={useColorModeValue("purple", "white")}
+                            fontWeight={800}>
                             {t("REGISTRATION.REGISTER")}
                         </Heading>
                     </Stack>
@@ -186,7 +178,7 @@ const RagisterForm = () => {
                                 </InputGroup>
                                 <Box color='red'> {errors?.confirmPassword && errors.confirmPassword.message}</Box>
                             </FormControl>
-                            {err?<Text fontSize={"18"} color={'red'}> User already exists</Text>:null}
+                            {error && <Box color='red' fontSize='15'>account already exists</Box>}
                             <Stack spacing={10} pt={2}>
                                 <Button type="submit" value="Submit" size="lg"
                                     bg={'purple'}
@@ -209,6 +201,7 @@ const RagisterForm = () => {
                     </Box>
                 </Stack>
             </form>
+            {loading ? <Loading/> : null}
         </Flex>
     )
 }

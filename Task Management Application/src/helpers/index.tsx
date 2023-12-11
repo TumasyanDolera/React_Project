@@ -1,3 +1,5 @@
-import { getToken } from "./cookies";
+import { saveAccessToken } from "./cookies";
+import { removeAccessToken } from "./cookies";
+import { getAccessToken } from "./cookies";
 
-export {getToken}
+export {getAccessToken, saveAccessToken, removeAccessToken}

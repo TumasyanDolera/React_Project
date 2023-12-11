@@ -16,9 +16,11 @@ import {
   IconProps,
   useColorModeValue,
 } from '@chakra-ui/react'
+
  
 export default function HomePage() {
   const { t } = useTranslation()
+ 
   return (
     <Container maxW={'7xl'}>
       <Stack

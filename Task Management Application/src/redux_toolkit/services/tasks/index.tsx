@@ -1,4 +1,4 @@
-import { setToken } from "../../../helpers/cookies";
+
 import { IAddTask } from "../../../models";
 import ApiAxios from "../../axios";
 
@@ -14,8 +14,7 @@ const TasksRequests = {
         }, 
     )
     console.log(response);
-    const token = response?.data?.token;
-    setToken('accessToken', token)
+  
     return response
 },
 

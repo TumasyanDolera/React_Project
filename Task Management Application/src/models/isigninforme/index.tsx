@@ -13,5 +13,6 @@ export interface ISignInForm{
     errormessages:string
     size:string
     currentPassword: string,
+    
 
 }

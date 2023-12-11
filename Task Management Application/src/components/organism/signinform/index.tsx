@@ -7,11 +7,12 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { ISignInForm } from "../../../models";
 import { Center, useColorModeValue } from "@chakra-ui/react";
 import { WrappedApp } from "../../../i18n"
-import { PostUserLogIN} from "../../../redux_toolkit/services/userauth";
-import { setAutorization } from "../../../redux_toolkit/features/auth";
+import { UserLogin } from "../../../redux_toolkit/services";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../../../helpers";
-
+import { useAppDispatch } from "../../../hooks/redux";
+import { useAppSelector } from "../../../hooks/redux";
+import { Loading } from "../../../loading";
+import { useEffect } from "react";
 import {
     Box,
     FormControl,
@@ -25,7 +26,6 @@ import {
     FormHelperText,
     InputRightElement,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 
 const SignIn = () => {
     const {
@@ -33,32 +33,23 @@ const SignIn = () => {
         formState: {
             errors,
         },
-        setError,
         handleSubmit,
         reset,
     } = useForm<ISignInForm>({
         mode: "onBlur"
     });
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
-        try {
-            const response = await PostUserLogIN(data)
-            console.log(response, 'RESPONSE ');
-            dispatch(setAutorization(response.data.accessToken))
-            reset()
+    const dispatch = useAppDispatch()
+    const { loading, error, userInfo } = useAppSelector((state) => state.userAuth)
+    useEffect(() => {
+        if (userInfo) {
             navigate('/')
-            getToken()
-            console.log(response, "gggggg")
-        } catch (err) {
-            const response = await PostUserLogIN(data)
-            if (response.statusCode !== 200) {
-                setError("password",{
-                    type:"server",
-                    message: 'Incorrect password or email'
-                });
-            }
+        //   navigate('/user-profile')
         }
+      }, [navigate, userInfo])
+    const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
+        dispatch(UserLogin(data))
+        reset()
     }
            
  const [passwordShown, setPasswordShown] = useState(false);
@@ -67,7 +58,7 @@ const SignIn = () => {
     };
     const { t } = useTranslation()
     return (
-        <Flex
+       <Flex
             flexDirection="column"
             width="100wh"
             height="95vh"
@@ -137,6 +128,7 @@ const SignIn = () => {
                                     <Link to="#">{t("LOG_IN.FORGOT_PASSWORD")}</Link>
                                 </FormHelperText>
                             </FormControl>
+                            {error && <Box color='red' fontSize="18">wrong email or password</Box>}
                             <Button
                                 borderRadius={0}
                                 type="submit"
@@ -154,10 +146,14 @@ const SignIn = () => {
                             </Center>
                         </Stack>
                     </form>
+                    {loading ? <Loading/> : null}
                 </Box>
             </Stack>
         </Flex>
+        
+        
     );
+   
 };
 
 export default SignIn

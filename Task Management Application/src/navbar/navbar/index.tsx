@@ -20,16 +20,14 @@ import {
   HamburgerIcon,
   CloseIcon,
 } from '@chakra-ui/icons'
-import { useDispatch } from 'react-redux'
-import { setAutorization } from '../../redux_toolkit/features/auth'
+import { removeAccessToken } from '../../helpers' 
 
 const Layout = () => {
   const { isOpen, onToggle } = useDisclosure()
   const {t} = useTranslation()
-  const dispatch = useDispatch()
 
    const handleLogOut = () =>{
-    dispatch(setAutorization(null))
+    removeAccessToken()
     window.location.reload();
    }
 

@@ -1,10 +1,10 @@
 import {configureStore} from "@reduxjs/toolkit"
-import { setUserToken } from "../../features/auth"
+import { userAuth } from "../../features/auth"
 import { setUserTask } from "../../features/user"
 
 export const Store = configureStore({
     reducer:{
-        userToken: setUserToken,
+        userAuth: userAuth,
         userTask: setUserTask
     }
 })
