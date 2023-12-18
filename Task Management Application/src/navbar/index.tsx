@@ -1,5 +1,5 @@
-import Layout from "./navbar";
-import MobileNav from "./mobilenavbar";
+import Layout from "./navBar";
+import MobileNav from "./mobileNavBar";
 
 
 export{Layout,MobileNav}

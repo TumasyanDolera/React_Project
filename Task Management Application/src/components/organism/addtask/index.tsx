@@ -12,13 +12,15 @@ import { Input } from '@chakra-ui/react'
 import { InputForm } from '../../molecule'
 import { useTranslation } from 'react-i18next'
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useState, useRef, ChangeEvent} from 'react';
+import { useState,
+   useRef, ChangeEvent
+  } from 'react';
 import { IAddTask } from '../../../models';
 import { CloseButton } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
-import { createTask } from '../../../redux_toolkit/features/user';
-// import { useNavigate } from 'react-router';
-import TasksRequests from '../../../redux_toolkit/services/tasks';
+import { useAppDispatch } from '../../../hooks/redux';
+import { CreateTask } from '../../../redux_toolkit/services';
+import { useNavigate } from 'react-router';
+
 export default function UserProfileEdit() {
  const {
     register,
@@ -27,16 +29,14 @@ export default function UserProfileEdit() {
   } = useForm<IAddTask>({
     mode: "onBlur"
   });
+  
   const [image, setImage] = useState(" ")
-  const dispatch = useDispatch()
-  // const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<IAddTask> =  async(data) => {
     try {
-      const response = await TasksRequests.PostTasks(data);
-      console.log(response, 'RESPONSE ');
-      // navigate("/programmertask")
-      dispatch(createTask(data))
-      alert(JSON.stringify(data));
+      dispatch(CreateTask(data))
+      navigate("/programmertask")
       reset();
     } catch (err) {
       console.error(err);
@@ -50,7 +50,6 @@ export default function UserProfileEdit() {
       title: 'Title',
       description: "Description",
       date: "Date",
-      level: "Level"
     }))
   }
   const { t } = useTranslation()
@@ -150,12 +149,6 @@ export default function UserProfileEdit() {
               }}
             />
           </FormControl>
-           {/* <FormLabel>{t("ADD_TASK.STATUS")} </FormLabel>
-           <Select {...register("status")} textDecor="Select">
-                 <option value="female">{t("ADD_TASK.TODO")}</option>
-                 <option value="male">{t("ADD_TASK.IN_PROGRESS")}</option>
-                 <option value="other">{t("ADD_TASK.DONE")}</option>
-            </Select> */}
               <Stack spacing={6} direction={['column', 'row']}>
             <Button size="lg"
               type='button'

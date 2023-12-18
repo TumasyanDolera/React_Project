@@ -8,3 +8,9 @@ export interface IMolecul {
     register: object
     size: string
 }
+
+export interface IUser{
+    user: []
+    loading: boolean
+    error?: string | undefined | null
+}

@@ -1,8 +1,8 @@
 import { Link, Outlet } from 'react-router-dom'
 import { Image } from '@chakra-ui/react'
-import MobileNav from '../mobilenavbar'
+import { MobileNav } from '..'
 import { ThemeSelector } from '../../components/molecule'
-import Translate from '../../i18n/i18next'
+import Translate from '../../i18n/i18Next'
 import { useTranslation } from 'react-i18next'
 import {
   Box,
@@ -21,6 +21,8 @@ import {
   CloseIcon,
 } from '@chakra-ui/icons'
 import { removeAccessToken } from '../../helpers' 
+import { removeRefreshToken } from '../../helpers/cookies'
+
 
 const Layout = () => {
   const { isOpen, onToggle } = useDisclosure()
@@ -28,10 +30,12 @@ const Layout = () => {
 
    const handleLogOut = () =>{
     removeAccessToken()
+    removeRefreshToken()
     window.location.reload();
    }
 
   return (
+    <>
     <Box>
       <Box>
         <Flex
@@ -66,7 +70,7 @@ const Layout = () => {
             </Text>
             <Flex display={{ base: 'none', md: 'flex' }} color={'white'} ml={5} fontSize={'lg'} mt={6} >
               <Box ml={10}><Link to="/">{t("NAV_BAR.HOME")}</Link></Box>
-              <Box ml={10}><Link to="/about">{t("NAV_BAR.CONTACT_US")}</Link></Box>
+              <Box ml={10}><Link to="about">{t("NAV_BAR.CONTACT_US")}</Link></Box>
             </Flex>
           </Flex>
           <Translate />
@@ -84,11 +88,22 @@ const Layout = () => {
               fontWeight={600}
               color={'white'}
               bg={'pink.400'}
-              href={'#'}
               _hover={{
                 bg: 'pink.300',
               }}>
               <Link to="/login">{t("NAV_BAR.SIGN_OUT")}</Link>
+            </Button>
+            <Button
+              as={'a'}
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize={'lg'}
+              fontWeight={600}
+              color={'white'}
+              bg={'pink.400'}
+              _hover={{
+                bg: 'pink.300',
+              }}>
+              <Link to="/user">User</Link>
             </Button>
           </Stack>
         </Flex>
@@ -96,8 +111,10 @@ const Layout = () => {
           <MobileNav />
         </Collapse>
       </Box>
-      <Outlet />
-    </Box>
+      </Box>
+    <Outlet />
+   
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import AuthRoutes from "./AuthRoutes.tsx";
-import UnAuthRoutes from "./UnAuthRoutes.tsx";
+import authRoutes from "./authRoutes.tsx/index.tsx";
+import unAuthRoutes from "./unAuthRoutes.tsx/index.tsx";
 
-export {AuthRoutes, UnAuthRoutes}
+export {authRoutes, unAuthRoutes}

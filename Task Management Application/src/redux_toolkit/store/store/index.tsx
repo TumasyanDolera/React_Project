@@ -1,11 +1,14 @@
 import {configureStore} from "@reduxjs/toolkit"
 import { userAuth } from "../../features/auth"
-import { setUserTask } from "../../features/user"
+import { postReducer } from "../../features/user"
+import { taskReduser } from "../../features/task"
 
 export const Store = configureStore({
     reducer:{
+        taskReduser: taskReduser,
         userAuth: userAuth,
-        userTask: setUserTask
+        UserReducer: postReducer,
+        
     }
 })
 

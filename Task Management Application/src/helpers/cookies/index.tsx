@@ -1,28 +1,36 @@
 import { IAuthState } from "../../models";
 
-export function saveAccessToken(accessToken:IAuthState) {
-  document.cookie = `accessToken=${accessToken}; expires=7; path=/`;}
+export function saveAccessToken(accessToken:IAuthState, refreshtoken:IAuthState) {
+  document.cookie = `accessToken=${accessToken}; expires=7; path=/`;
+  document.cookie = `refreshToken=${refreshtoken}; expires=7;  path=/`; }
 
-export function getAccessToken() {
-    const cookies = document.cookie.split('; ');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
-      if (name === 'accessToken') {
-        return value;
-      }
+  export function setToken(accessToken: string, token: string, remember: boolean) {
+    if (remember) {
+      document.cookie = `${accessToken}=${token}; expires=${new Date(
+        Date.now() + 3600000
+      ).toUTCString()}; path=/;`;
+    } else {
+      document.cookie = `accessToken=${accessToken}; path=/;`;
+    }
+  }
+
+export function getAccessToken(accessToken: string) {
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+       if (cookie.startsWith(`${accessToken}=`)) {
+      return cookie.substring(`${accessToken}=`.length, cookie.length);
+    }
+      
     }
     return null;
   }
-export function setToken(accessToken: string, remember: boolean) {
-  if (remember) {
-    document.cookie = `accessToken=${accessToken}; expires=${new Date(
-      Date.now() + 3600000
-    ).toUTCString()}; path=/;`;
-  } else {
-    document.cookie = `accessToken=${accessToken}; path=/`;
-  }
-}
+  
 export function removeAccessToken() {
-  document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-}
+  document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';}
+
+export function removeRefreshToken() {
+    document.cookie = 'refreshtoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+   }
+  
 

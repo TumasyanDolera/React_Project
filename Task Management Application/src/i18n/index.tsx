@@ -1,4 +1,4 @@
-import WrappedApp from "./i18next";
+import WrappedApp from "./i18Next";
 
 
 export  {WrappedApp}

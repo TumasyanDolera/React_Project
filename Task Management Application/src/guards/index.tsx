@@ -1,4 +1,4 @@
-import AuthGuard from "./AuthGuards.tsx";
-import UnAuthGuard from "./UnAuthGuards.js";
+import AuthGuard from "./authGuards.tsx/index.tsx";
+import UnAuthGuard from "./unAuthGuards.js/index.js";
 
 export {AuthGuard, UnAuthGuard}

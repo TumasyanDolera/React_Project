@@ -1,24 +1,29 @@
-import { Route } from "react-router-dom";
-import { AuthGuard } from "../../guards";
-import { Home } from "../../pages";
-import { ContactUs } from "../../pages";
-import { AddTaskToDo } from '../../pages';
-import { ProgramerTask } from '../../pages';
-import { EdetTasks } from '../../pages';
-import { NotFound } from '../../components/organism';
-import { Layout } from '../../navbar/index.tsx';
+import { Navigate, Route } from "react-router-dom";
+import { ChangePassword, Home, SingleUserTask } from "../../pages/index.tsx";
+import { ContactUs } from "../../pages/index.tsx";
+import { AddTaskToDo } from '../../pages/index.tsx';
+import { ProgramerTask } from '../../pages/index.tsx';
+import { NotFoundPage, UserProfile } from '../../pages/index.tsx';
+import { Layout } from "../../navBar/index.tsx"; 
 
-const AuthRoutes = [
-   <Route path='/' element={<Layout />}>
-        <Route key="Home" index element={<AuthGuard component={<Home />} />} />
-        <Route index element={<AuthGuard component={<Home />} />}/>
-        <Route path="about" element={<AuthGuard component={<ContactUs/>} />} />
-        <Route path="task" element={<AuthGuard component={<AddTaskToDo />} />} />
-        <Route path='programmertask' element={<AuthGuard component={<ProgramerTask />} />} />
-        <Route path='edettask' element={<AuthGuard component={<EdetTasks  />} />} />
-        <Route path="*" element={<AuthGuard component={<NotFound  />} />} />
+const AuthRoutes = (
+  <Route>
+  <Route path="/" element={<Layout />}>
+    <Route index element={<Home />} />
+    <Route path="about" element={<ContactUs />} />
+    <Route path="task" element={<AddTaskToDo />} />
+    <Route path="programmertask" element={<ProgramerTask />} />
+    <Route path="user">
+      <Route index element={<UserProfile />} />
+      <Route path="changepassword" element={<ChangePassword />}/>
+      <Route path="programmertask" element={<ProgramerTask />}/>
+      <Route path="singletask" element={<SingleUserTask />} />
+      <Route path="task" element={<AddTaskToDo />} />
+      </Route>
     </Route>
-
-]
+    <Route path='/login' element={<Navigate to='/' />} />
+    <Route path="*" element={<NotFoundPage />} />
+  </Route>)
 
 export default AuthRoutes;
+

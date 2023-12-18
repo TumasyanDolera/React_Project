@@ -13,6 +13,15 @@ export  interface IAddTask {
     status: string
     token:string
     id:number
-    
-   
-  }
+    data: []
+}
+export interface ITask {
+  createdAt: string;
+  description: string;
+  dueDate: string;
+  id: number;
+  status: string;
+  title: string;
+  updatedAt: string;
+  userId: number;
+}

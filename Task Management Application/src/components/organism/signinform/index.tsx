@@ -26,6 +26,7 @@ import {
     FormHelperText,
     InputRightElement,
 } from "@chakra-ui/react";
+import { Navigation } from "../../../navigation";
 
 const SignIn = () => {
     const {
@@ -41,14 +42,18 @@ const SignIn = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const { loading, error, userInfo } = useAppSelector((state) => state.userAuth)
+
     useEffect(() => {
         if (userInfo) {
-            navigate('/')
-        //   navigate('/user-profile')
+           console.log("hhhh");
+           navigate('/')
+           
+            
         }
       }, [navigate, userInfo])
     const onSubmit: SubmitHandler<ISignInForm> = async (data) => {
         dispatch(UserLogin(data))
+       
         reset()
     }
            

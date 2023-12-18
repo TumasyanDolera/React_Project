@@ -89,5 +89,27 @@
         "COMMUNITY_GUIDELINES": "Community Guidelines",
         "FIND_US_ONLINE": "FIND US ONLINE",
         "INSTALL_APP": "INSTALL APP"
-    }
+    },
+    "DELETE":{
+        "DELETE":"Delete Task",
+        "ARE_YOU_SURE":"Are you sure you want to delete your account?",
+        "NO":"No",
+        "YES":"Yes"
+     },
+     "EDIT":{
+        "EDIT":"Edit Task",
+        "CLOSE": "Close",
+        "EDETEDIT": "Edit"
+     },
+     "USER":{
+        "ROLE":"Role:",
+        "CREATED_AT": "Created At:",
+        "UPDATED_AT": "Updated At",
+        "TASK": "Task",
+        "ALL_TASKS": "All Tasks",
+        "USER_NOT_FOUND": " User not found",
+        "ADD_TASK": " Add Task",
+        "CHANGEPASS": "Change password"
+     }
+
 }

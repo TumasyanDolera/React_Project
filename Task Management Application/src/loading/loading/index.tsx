@@ -1,8 +1,9 @@
-import { Box, Spinner } from "@chakra-ui/react"
+import { Box, Center, Spinner } from "@chakra-ui/react"
 
 export default function Loading() {
     return (
-        <Box>
+        <Center>
+        <Box >
             <Spinner
                 thickness='4px'
                 speed='0.65s'
@@ -12,5 +13,6 @@ export default function Loading() {
             />
             <Box>Loading ...</Box>
         </Box>
+        </Center>
     )
 }

@@ -14,3 +14,9 @@ export interface IForm{
     errormessages:string
     userId:string
 }
+
+export interface IChangeUser {
+    newEmail?: string;
+    firstName?: string;
+    lastName?: string;
+  }

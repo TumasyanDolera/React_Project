@@ -6,3 +6,38 @@ export interface IInput {
   register: object
   size: string
 }
+export interface IPostTask {
+  title: string;
+  description: string;
+  dueDate: string;
+  status:string
+  element: string
+  id:any
+}
+export interface IAddTask {
+  title: string;
+  description: string;
+  dueDate: string;
+  status: string;
+}
+
+export interface IUpdateTask{
+  id: number;
+  task: IAddTask;
+  edetedId:null
+  }
+
+export interface IDeleteTask{
+  id:number
+}
+export interface IEditModal{
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  task: {
+    title: string;
+    description: string;
+    dueDate: string;
+    status: string;
+  };
+}

@@ -14,6 +14,7 @@ import { UserRegister } from "../../../redux_toolkit/services";
 import { useAppSelector, useAppDispatch } from "../../../hooks/redux";
 import { Loading } from "../../../loading";
 import { useEffect } from "react";
+
 const RagisterForm = () => {
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePasswordVisiblity = () => {
